@@ -22,12 +22,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/username/metacognitive-claude-system.git"
+    "url": "https://github.com/psiloceyeben/Metacognition.git"
   },
   "bugs": {
-    "url": "https://github.com/username/metacognitive-claude-system/issues"
+    "url": "https://github.com/psiloceyeben/Metacognition/issues"
   },
-  "homepage": "https://github.com/username/metacognitive-claude-system#readme",
+  "homepage": "https://github.com/psiloceyeben/Metacognition#readme",
   "dependencies": {
     "axios": "^1.4.0"
   },
