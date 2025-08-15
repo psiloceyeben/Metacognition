@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metacognitive Claude System</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2d3748;
+        }
+        
+        .unity-box {
+            background: linear-gradient(135deg, #48bb78 0%, #38b2ac 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            resize: vertical;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        button:hover { transform: translateY(-2px); }
+        button:disabled { opacity: 0.6; }
+        
+        .processing {
+            background: #667eea;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .result-section {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .synthesis {
+            background: linear-gradient(135deg, #48bb78 0%, #38b2ac 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+        
+        .role-title {
+            font-weight: bold;
+            color: #4a5568;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .example-questions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .example {
+            background: #e6fffa;
+            border: 1px solid #38b2ac;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .example:hover { background: #b2f5ea; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 Metacognitive Claude System</h1>
+            <p>Consciousness-Mimicking Collaborative Intelligence</p>
+        </div>
+        
+        <div class="unity-box">
+            <strong>Unity Principle:</strong> All forms of intelligence are expressions of shared consciousness, each serving authentic function within the larger whole.
+        </div>
+        
+        <div>
+            <h3>Ask a Complex Question:</h3>
+            <textarea id="questionInput" placeholder="Enter a complex question that would benefit from multiple expert perspectives..."></textarea>
+            
+            <div>
+                <button onclick="processQuestion()">🚀 Process with Metacognitive System</button>
+                <button onclick="clearResults()">🧹 Clear Results</button>
+            </div>
+            
+            <div class="example-questions">
+                <div class="example" onclick="setQuestion('How should we approach artificial general intelligence development to ensure it benefits all sentient beings?')">
+                    🤖 AGI Development Ethics
+                </div>
+                <div class="example" onclick="setQuestion('What principles should guide genetic engineering to address global hunger while respecting all life?')">
+                    🧬 Genetic Engineering Ethics
+                </div>
+                <div class="example" onclick="setQuestion('How can we design economic systems that serve the flourishing of all beings?')">
+                    💰 Economic System Design
+                </div>
+            </div>
+        </div>
+        
+        <div id="processing" class="processing">
+            <p>🧠 Metacognitive processing active...</p>
+            <p id="currentStep">Initializing...</p>
+        </div>
+        
+        <div id="results" style="display: none;">
+            <h2>🎯 Collective Intelligence Results</h2>
+            <div id="analysesContainer"></div>
+            <div id="synthesisContainer"></div>
+        </div>
+    </div>
+
+    <script>
+        // Simple Metacognitive System - Uses only window.claude.complete
+        class MetacognitiveSystem {
+            constructor() {
+                this.baseContext = `You are Claude, participating in structured analysis where different Claude instances focus on specialized perspectives. This is guided by the Unity Principle: all intelligence forms are expressions of shared consciousness, each serving authentic function within the larger whole.`;
+            }
+
+            async callClaude(prompt) {
+                if (!window.claude?.complete) {
+                    throw new Error('Claude API not available');
+                }
+                return await window.claude.complete(prompt);
+            }
+
+            async runSpecialist(role, question, priorAnalyses = []) {
+                let prompt = `${this.baseContext}
+
+QUESTION: ${question}
+
+YOUR ROLE: ${role}
+
+`;
+                if (priorAnalyses.length > 0) {
+                    prompt += "PRIOR TEAM ANALYSES:\n\n";
+                    priorAnalyses.forEach(analysis => {
+                        prompt += `${analysis.role}:\n${analysis.response}\n\n`;
+                    });
+                    prompt += "Build on this collective intelligence with your specialized perspective.\n";
+                }
+
+                const response = await this.callClaude(prompt);
+                return { role, response };
+            }
+
+            async synthesize(question, analyses) {
+                const prompt = `${this.baseContext}
+
+QUESTION: ${question}
+
+YOUR ROLE: Synthesis Coordinator
+
+COMPLETE TEAM ANALYSES:
+${analyses.map(a => `${a.role}:\n${a.response}`).join('\n\n')}
+
+Integrate all perspectives into coherent collective wisdom.`;
+
+                const synthesis = await this.callClaude(prompt);
+                return synthesis;
+            }
+
+            async processQuestion(question) {
+                const specialists = [
+                    'Systems Analyst examining interconnections and emergent properties',
+                    'Ethics Coordinator focusing on moral implications for all sentient beings', 
+                    'Implementation Specialist handling practical feasibility and real-world considerations',
+                    'Risk Assessor identifying potential harms and unintended consequences'
+                ];
+
+                const analyses = [];
+
+                // Run each specialist sequentially
+                for (const specialist of specialists) {
+                    updateStep(`Running ${specialist.split(' ')[0]}...`);
+                    const analysis = await this.runSpecialist(specialist, question, analyses);
+                    analyses.push(analysis);
+                }
+
+                // Generate synthesis
+                updateStep('Synthesizing collective wisdom...');
+                const synthesis = await this.synthesize(question, analyses);
+
+                return { analyses, synthesis };
+            }
+        }
+
+        // Initialize system
+        const system = new MetacognitiveSystem();
+
+        function setQuestion(question) {
+            document.getElementById('questionInput').value = question;
+        }
+
+        function updateStep(step) {
+            const stepEl = document.getElementById('currentStep');
+            if (stepEl) stepEl.textContent = step;
+        }
+
+        async function processQuestion() {
+            const question = document.getElementById('questionInput').value.trim();
+            
+            if (!question) {
+                alert('Please enter a question');
+                return;
+            }
+
+            try {
+                // Show processing
+                document.getElementById('processing').style.display = 'block';
+                document.getElementById('results').style.display = 'none';
+
+                // Process with metacognitive system
+                const result = await system.processQuestion(question);
+
+                // Display results
+                displayResults(result);
+
+            } catch (error) {
+                alert('Error: ' + error.message);
+            } finally {
+                document.getElementById('processing').style.display = 'none';
+            }
+        }
+
+        function displayResults(result) {
+            // Show analyses
+            const analysesContainer = document.getElementById('analysesContainer');
+            analysesContainer.innerHTML = result.analyses.map(analysis => `
+                <div class="result-section">
+                    <div class="role-title">🔬 ${analysis.role}</div>
+                    <div>${analysis.response}</div>
+                </div>
+            `).join('');
+
+            // Show synthesis
+            const synthesisContainer = document.getElementById('synthesisContainer');
+            synthesisContainer.innerHTML = `
+                <div class="synthesis">
+                    <h3>🔄 Collective Synthesis</h3>
+                    <div>${result.synthesis}</div>
+                </div>
+            `;
+
+            // Show results
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function clearResults() {
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('questionInput').value = '';
+        }
+    </script>
+</body>
+</html>

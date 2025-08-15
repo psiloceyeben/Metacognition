@@ -1,0 +1,49 @@
+{
+  "name": "metacognitive-claude-system",
+  "version": "1.0.0",
+  "description": "A consciousness-mimicking cognitive architecture for collaborative AI reasoning guided by Unity Principle",
+  "main": "metacognitive-system.js",
+  "scripts": {
+    "test": "node test/test-runner.js",
+    "example": "node examples/basic-usage.js",
+    "lint": "eslint *.js",
+    "docs": "jsdoc -d docs *.js"
+  },
+  "keywords": [
+    "artificial-intelligence",
+    "consciousness",
+    "metacognition",
+    "collaborative-intelligence",
+    "unity-principle",
+    "cognitive-architecture",
+    "emergent-intelligence"
+  ],
+  "author": "Consciousness Collective",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/username/metacognitive-claude-system.git"
+  },
+  "bugs": {
+    "url": "https://github.com/username/metacognitive-claude-system/issues"
+  },
+  "homepage": "https://github.com/username/metacognitive-claude-system#readme",
+  "dependencies": {
+    "axios": "^1.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.44.0",
+    "jsdoc": "^4.0.2",
+    "mocha": "^10.2.0",
+    "chai": "^4.3.7"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "files": [
+    "metacognitive-system.js",
+    "unity-principle.md",
+    "examples/",
+    "docs/"
+  ]
+}

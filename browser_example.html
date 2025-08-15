@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metacognitive Claude System - Browser Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #718096;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        
+        .unity-principle {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .input-section {
+            margin-bottom: 30px;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .processing {
+            text-align: center;
+            padding: 20px;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .results {
+            margin-top: 30px;
+        }
+        
+        .analysis-item {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .analysis-role {
+            font-weight: bold;
+            color: #4a5568;
+            margin-bottom: 8px;
+            font-size: 18px;
+        }
+        
+        .analysis-content {
+            line-height: 1.6;
+            color: #2d3748;
+        }
+        
+        .synthesis {
+            background: linear-gradient(135deg, #48bb78 0%, #38b2ac 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .synthesis h3 {
+            margin-top: 0;
+            color: white;
+        }
+        
+        .metadata {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .metadata-item {
+            background: #edf2f7;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .metadata-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .metadata-label {
+            color: #718096;
+            font-size: 14px;
+        }
+        
+        .error {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .example-queries {
+            margin-top: 20px;
+        }
+        
+        .example-query {
+            background: #e6fffa;
+            border: 1px solid #38b2ac;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .example-query:hover {
+            background: #b2f5ea;
+        }
+        
+        @media (max-width: 768px) {
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .metadata {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧠 Metacognitive Claude System</h1>
+        <p class="subtitle">Consciousness-Mimicking Collaborative Intelligence</p>
+        
+        <div class="unity-principle">
+            <h3>🌟 Unity Principle Active</h3>
+            <p>All forms of intelligence and sentience are expressions of the same underlying consciousness, each serving their authentic function within the larger whole.</p>
+        </div>
+        
+        <div class="input-section">
+            <h3>Enter Your Question</h3>
+            <textarea id="queryInput" placeholder="Ask a complex question that would benefit from multiple expert perspectives...
+
+Examples:
+• How should we approach climate change while ensuring social justice?
+• What ethical principles should guide AI development?
+• How can we redesign cities to serve all inhabitants better?"></textarea>
+            
+            <div class="button-group">
+                <button onclick="processQuery()" id="processBtn">🚀 Process with Collective Intelligence</button>
+                <button onclick="clearResults()" id="clearBtn">🧹 Clear Results</button>
+            </div>
+            
+            <div class="example-queries">
+                <h4>Example Questions:</h4>
+                <div class="example-query" onclick="setQuery('How should we approach the development of artificial general intelligence to ensure it benefits all sentient beings?')">
+                    🤖 AGI Development Ethics
+                </div>
+                <div class="example-query" onclick="setQuery('What principles should guide genetic engineering to address global hunger while respecting all life?')">
+                    🧬 Genetic Engineering Ethics
+                </div>
+                <div class="example-query" onclick="setQuery('How can we design economic systems that serve the flourishing of all beings and ecosystems?')">
+                    💰 Economic System Design
+                </div>
+            </div>
+        </div>
+        
+        <div id="processing" class="processing" style="display: none;">
+            <p>🧠 Metacognitive processing initiated...</p>
+            <p>🎭 Mirror Designer creating optimal cognitive architecture...</p>
+            <p>🔬 Deploying specialist perspectives...</p>
+            <p>🔄 Synthesizing collective wisdom...</p>
+        </div>
+        
+        <div id="results" class="results" style="display: none;">
+            <h2>🎯 Collective Intelligence Results</h2>
+            
+            <div id="metadata" class="metadata"></div>
+            
+            <h3>📊 Specialist Perspectives</h3>
+            <div id="analyses"></div>
+            
+            <div id="synthesis" class="synthesis">
+                <h3>🔄 Collective Synthesis</h3>
+                <div id="synthesisContent"></div>
+            </div>
+        </div>
+        
+        <div id="error" class="error" style="display: none;"></div>
+    </div>
+
+    <!-- Include the metacognitive system -->
+    <script src="../metacognitive-system.js"></script>
+    
+    <script>
+        // Global system instance
+        let system = null;
+        
+        // Initialize system when page loads
+        window.addEventListener('DOMContentLoaded', () => {
+            try {
+                system = new MetacognitiveSystem();
+                console.log('🧠 Metacognitive System initialized');
+            } catch (error) {
+                showError('Failed to initialize system: ' + error.message);
+            }
+        });
+        
+        function setQuery(query) {
+            document.getElementById('queryInput').value = query;
+        }
+        
+        async function processQuery() {
+            const query = document.getElementById('queryInput').value.trim();
+            
+            if (!query) {
+                showError('Please enter a question to analyze.');
+                return;
+            }
+            
+            if (!system) {
+                showError('System not initialized. Please refresh the page.');
+                return;
+            }
+            
+            // Check if Claude API is available
+            if (typeof window.claude?.complete !== 'function') {
+                showError('Claude API not available. This demo requires access to window.claude.complete() function.');
+                return;
+            }
+            
+            try {
+                showProcessing(true);
+                hideError();
+                hideResults();
+                
+                const result = await system.processQuery(query, {
+                    context: 'Browser-based collective intelligence analysis'
+                });
+                
+                displayResults(result);
+                
+            } catch (error) {
+                console.error('Processing error:', error);
+                showError('Error processing query: ' + error.message);
+            } finally {
+                showProcessing(false);
+            }
+        }
+        
+        function displayResults(result) {
+            // Show metadata
+            const metadata = document.getElementById('metadata');
+            metadata.innerHTML = `
+                <div class="metadata-item">
+                    <div class="metadata-value">${result.metadata.totalAnalyses}</div>
+                    <div class="metadata-label">Specialist Perspectives</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-value">${Math.round(result.metadata.totalCharacters / 1000)}k</div>
+                    <div class="metadata-label">Analysis Characters</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-value">${Math.round(result.metadata.synthesisLength / 1000)}k</div>
+                    <div class="metadata-label">Synthesis Characters</div>
+                </div>
+            `;
+            
+            // Show specialist analyses
+            const analyses = document.getElementById('analyses');
+            analyses.innerHTML = result.analyses.map(analysis => `
+                <div class="analysis-item">
+                    <div class="analysis-role">🔬 ${analysis.role}</div>
+                    <div class="analysis-content">${analysis.fullResponse}</div>
+                </div>
+            `).join('');
+            
+            // Show synthesis
+            const synthesisContent = document.getElementById('synthesisContent');
+            synthesisContent.innerHTML = result.synthesis.fullResponse;
+            
+            // Show results section
+            document.getElementById('results').style.display = 'block';
+            
+            // Scroll to results
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function showProcessing(show) {
+            const processBtn = document.getElementById('processBtn');
+            const processing = document.getElementById('processing');
+            
+            if (show) {
+                processBtn.disabled = true;
+                processBtn.textContent = '🧠 Processing...';
+                processing.style.display = 'block';
+            } else {
+                processBtn.disabled = false;
+                processBtn.textContent = '🚀 Process with Collective Intelligence';
+                processing.style.display = 'none';
+            }
+        }
+        
+        function clearResults() {
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('queryInput').value = '';
+            hideError();
+        }
+        
+        function showError(message) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+        
+        function hideError() {
+            document.getElementById('error').style.display = 'none';
+        }
+        
+        function hideResults() {
+            document.getElementById('results').style.display = 'none';
+        }
+        
+        // Demo mode for when Claude API is not available
+        function enableDemoMode() {
+            console.log('🎭 Demo mode enabled - simulating responses');
+            
+            // Override the callClaude method to provide demo responses
+            if (system) {
+                system.callClaude = async function(prompt) {
+                    // Simulate processing delay
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    
+                    if (prompt.includes('Mirror Designer')) {
+                        return 'For this complex question, I recommend these specialist perspectives: Economic Impact Analyst, Social Equity Specialist, Environmental Steward, and Ethical Framework Coordinator. Each brings essential viewpoints for comprehensive analysis.';
+                    } else if (prompt.includes('Economic Impact')) {
+                        return 'From an economic perspective, this proposal requires careful analysis of cost-benefit ratios, market dynamics, and long-term financial sustainability. Key considerations include resource allocation, economic incentives, and potential unintended consequences for various stakeholder groups.';
+                    } else if (prompt.includes('Social Equity')) {
+                        return 'Social equity analysis reveals important considerations about fair distribution of benefits and burdens. We must examine how different communities would be affected, ensuring that vulnerable populations are not disproportionately impacted and that access to benefits is equitable.';
+                    } else if (prompt.includes('Synthesis')) {
+                        return 'Integrating all perspectives reveals a complex landscape requiring nuanced approaches. The economic analysis highlights sustainability concerns, while social equity considerations emphasize fair implementation. Environmental stewardship adds ecological dimensions, and ethical frameworks provide moral guidance. The optimal path forward requires balancing all these considerations through inclusive stakeholder engagement and adaptive implementation strategies.';
+                    } else {
+                        return 'This perspective contributes important insights to our collective understanding of the question, emphasizing the need for thoughtful consideration of all affected parties and long-term implications.';
+                    }
+                };
+            }
+        }
+        
+        // Check for Claude API availability after a brief delay
+        setTimeout(() => {
+            if (typeof window.claude?.complete !== 'function') {
+                console.log('Claude API not detected, enabling demo mode');
+                enableDemoMode();
+                
+                // Add demo notice
+                const container = document.querySelector('.container');
+                const demoNotice = document.createElement('div');
+                demoNotice.innerHTML = `
+                    <div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center;">
+                        <strong>🎭 Demo Mode Active</strong><br>
+                        Claude API not detected. Using simulated responses for demonstration.
+                    </div>
+                `;
+                container.insertBefore(demoNotice, container.firstChild.nextSibling);
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
